@@ -38,7 +38,7 @@ export default function Home() {
 
   return (
     <main className="max-w-md mx-auto p-6">
-      <Link href="/api-todos" className="btn btn-outline mt-4 w-full">
+      <Link href="/api-todos" className="btn btn-outline mt-4 w-full mb-4">
           View API Todos
         </Link>
       <h1 className="text-2xl font-bold mb-4 text-center">📝 My To-Do List</h1>
