@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import TaskItem from "../components/TaskItem";
+import TaskItem from "../components/SearchBar";
 
 describe("TaskItem Component", () => {
   it("renders the task text correctly", () => {

@@ -1,62 +1,66 @@
 "use client";
+import { useState, useEffect } from "react";
+import Grid from "@mui/material/Grid";
+import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
+import { ThemeProvider } from "@mui/material/styles";
+import Hero from "../components/Hero";
+import SearchBar from "../components/SearchBar";
+import AnimeCard from "../components/AnimeCard";
+import Pagination from "../components/Pagination";
+import theme from "../themes/theme";
+import CssBaseline from "@mui/material/CssBaseline";
 
-import { useEffect, useState } from "react";
-import TaskInput from "../components/TaskInput";
-import TaskItem from "../components/TaskItem";
-import Link from "next/link";
-
-interface Task {
-  text: string;
-  done: boolean;
-}
-
-export default function Home() {
-  const [tasks, setTasks] = useState<Task[]>([]);
+export default function HomePage() {
+  const [animes, setAnimes] = useState<any[]>([]);
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const limit = 6;
 
   useEffect(() => {
-    const saved = localStorage.getItem("tasks");
-    if (saved) setTasks(JSON.parse(saved));
-  }, []);
+    fetchAnime(search, page);
+  }, [page]);
 
-  useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  }, [tasks]);
+  async function fetchAnime(q: string, p = 1) {
+    const res = await fetch(
+      `https://api.jikan.moe/v4/anime?q=${q}&limit=${limit}&page=${p}`
+    );
+    const data = await res.json();
+    setAnimes(data.data);
+    setTotalPages(data.pagination?.last_visible_page || 1);
+  }
 
-  const addTask = (text: string) => {
-    setTasks([...tasks, { text, done: false }]);
-  };
-
-  const toggleTask = (index: number) => {
-    const updated = [...tasks];
-    updated[index].done = !updated[index].done;
-    setTasks(updated);
-  };
-
-  const deleteTask = (index: number) => {
-    setTasks(tasks.filter((_, i) => i !== index));
-  };
+  function handleSearch(query: string) {
+    setSearch(query);
+    setPage(1);
+    fetchAnime(query, 1);
+  }
 
   return (
-    <main className="max-w-md mx-auto p-6">
-      <Link href="/api-todos" className="btn btn-outline mt-4 w-full mb-4">
-          View API Todos
-        </Link>
-      <h1 className="text-2xl font-bold mb-4 text-center">📝 My To-Do List</h1>
-      <TaskInput onAdd={addTask} />
-      <div className="mt-4 space-y-2">
-        {tasks.map((t, i) => (
-          <TaskItem
-            key={i}
-            task={t.text}
-            done={t.done}
-            onToggle={() => toggleTask(i)}
-            onDelete={() => deleteTask(i)}
+    <ThemeProvider theme={theme}>
+       <CssBaseline />
+      <Box
+      >
+        <Container>
+          <Hero />
+          <SearchBar value={search} onChange={setSearch} onSearch={handleSearch} />
+
+          <Grid container spacing={3} mt={3} justifyContent="center">
+            {animes.map((a) => (
+              <Grid item key={a.mal_id}>
+                <AnimeCard anime={a} />
+              </Grid>
+            ))}
+          </Grid>
+
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
           />
-        ))}
-        {tasks.length === 0 && (
-          <p className="text-center text-gray-400 mt-4">No tasks yet!</p>
-        )}
-      </div>
-    </main>
+        </Container>
+      </Box>
+    </ThemeProvider>
   );
 }

@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import TaskInput from "../components/TaskInput";
+import TaskInput from "../components/Hero";
 
 describe("TaskInput Component", () => {
   it("renders input and button", () => {
