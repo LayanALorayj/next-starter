@@ -2,17 +2,20 @@
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import Box from "@mui/material/Box";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 import "./globals.css";
 
 const theme = createTheme({
   palette: {
     mode: "light",
     background: {
-      default: "#f7f8fa", 
-      paper: "#ffffff",   
+      default: "#f7f8fa",
+      paper: "#ffffff",
     },
     primary: {
-      main: "#e996d3",  
+      main: "#e996d3",
       contrastText: "#1a1a1a",
     },
     secondary: {
@@ -29,7 +32,7 @@ const theme = createTheme({
     success: { main: "#66bb6a" },
   },
   shape: {
-    borderRadius: 8, 
+    borderRadius: 8,
   },
 });
 
@@ -39,7 +42,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          {children}
+          <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+            {/* Header ثابت فوق كل الصفحات */}
+            <Header />
+
+            {/* المحتوى الأساسي */}
+            <Box component="main" sx={{ flex: 1, py: 4 }}>
+              {children}
+            </Box>
+
+            {/* Footer ثابت أسفل الصفحة */}
+            <Footer />
+          </Box>
         </ThemeProvider>
       </body>
     </html>

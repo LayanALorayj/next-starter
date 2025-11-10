@@ -1,25 +1,33 @@
 "use client";
-import MuiPagination from "@mui/material/Pagination";
+
 import Stack from "@mui/material/Stack";
+import MuiPagination from "@mui/material/Pagination";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 interface PaginationProps {
-  currentPage: number;
   totalPages: number;
-  onPageChange: (page: number) => void;
+  query: string;
 }
 
-export default function Pagination({
-  currentPage,
-  totalPages,
-  onPageChange,
-}: PaginationProps) {
+export default function Pagination({ totalPages, query }: PaginationProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const currentPage = parseInt(searchParams.get("page") || "1", 10);
+
+  const handleChange = (_: React.ChangeEvent<unknown>, value: number) => {
+    router.push(`${pathname}?q=${encodeURIComponent(query)}&page=${value}`);
+    router.refresh();
+  };
+
   return (
-    <Stack alignItems="center" mt={4}>
+    <Stack alignItems="center" mt={4} mb={4}>
       <MuiPagination
         count={totalPages}
         page={currentPage}
         color="primary"
-        onChange={(_, value) => onPageChange(value)}
+        onChange={handleChange}
       />
     </Stack>
   );

@@ -16,7 +16,7 @@ export default function AnimeDetail() {
   const [anime, setAnime] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const theme = useTheme(); // نستخدم الثيم
+  const theme = useTheme(); 
 
   useEffect(() => {
     if (!id) return;
@@ -67,7 +67,7 @@ export default function AnimeDetail() {
         display: "flex",
         justifyContent: "center",
         backgroundColor: theme.palette.background.default,
-        minHeight: "100vh", // تخلي الخلفية تملأ الشاشة
+        minHeight: "100vh",
       }}
     >
       <Card
