@@ -1,60 +1,35 @@
-"use client";
-
-import { useEffect, useState } from "react";
+import { Suspense } from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
-import { useSearchParams } from "next/navigation";
 import AnimeCard from "./AnimeCard";
 
-export default function AnimeGrid() {
-  const searchParams = useSearchParams();
-  const search = searchParams.get("q") || "";
-  const page = parseInt(searchParams.get("page") || "1", 10);
+interface AnimeGridProps {
+  animes: any[];
+}
 
-  const [animes, setAnimes] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [totalPages, setTotalPages] = useState(1);
+function LoadingFallback() {
+  return (
+    <Box display="flex" justifyContent="center" mt={5}>
+      <CircularProgress />
+    </Box>
+  );
+}
 
-  async function getAnime() {
-    try {
-      setLoading(true);
-      const res = await fetch(
-        `https://api.jikan.moe/v4/anime?q=${search}&limit=6&page=${page}`
-      );
-      const data = await res.json();
-      setAnimes(Array.isArray(data.data) ? data.data : []);
-      setTotalPages(data.pagination?.last_visible_page || 1);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    getAnime();
-  }, [search, page]);
-
-  if (loading) {
-    return (
-      <Box display="flex" justifyContent="center" mt={5}>
-        <CircularProgress />
-      </Box>
-    );
-  }
-
+export default function AnimeGrid({ animes }: AnimeGridProps) {
   if (animes.length === 0) {
-    return <p style={{ textAlign: "center" }}>No anime found</p>;
+    return <p style={{ textAlign: "center" }}>No anime found. Try searching for something.</p>;
   }
 
   return (
-    <Grid container spacing={3} mt={3} justifyContent="center">
-      {animes.map((a) => (
-        <Grid item key={a.mal_id}>
-          <AnimeCard anime={a} />
-        </Grid>
-      ))}
-    </Grid>
+    <Suspense fallback={<LoadingFallback />}>
+      <Grid container spacing={3} mt={3} justifyContent="center">
+        {animes.map((a) => (
+          <Grid item key={a.mal_id} xs={12} sm={6} md={4} lg={3}>
+            <AnimeCard anime={a} />
+          </Grid>
+        ))}
+      </Grid>
+    </Suspense>
   );
 }

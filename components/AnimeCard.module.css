@@ -1,17 +1,19 @@
 .card {
   transition: 0.3s;
   border-radius: 12px;
-  background-color: #ffffff; /* خلفية الكارد أبيض */
-  color: #000000; /* نص الكارد أسود */
+  background-color: #161b22; 
+  color: #ffffff;
+  box-shadow: 0px 2px 5px rgba(0,0,0,0.2);
 }
 
 .card:hover {
-  box-shadow: 0px 6px 20px rgba(0,0,0,0.2);
+  box-shadow: 0px 6px 20px rgba(255,255,255,0.5);
   transform: translateY(-4px);
 }
 
 .cardImg {
-  height: 260px;
+  height: 220px;
+  width: 100%;
   object-fit: cover;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
@@ -19,11 +21,14 @@
 
 .cardTitle {
   font-weight: bold;
+  overflow-wrap: break-word;
 }
 
 .cardSynopsis {
+  margin-top: 4px;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  text-overflow: ellipsis;
 }

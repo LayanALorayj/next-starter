@@ -10,22 +10,25 @@ import styles from "./AnimeCard.module.css";
 
 export default function AnimeCard({ anime }: { anime: any }) {
   return (
-    <Box sx={{ display: "flex", justifyContent: "center", py: 4 }}>
+    <Box sx={{ display: "flex", justifyContent: "center", py: 2 }}>
       <Link href={`/anime/${anime.mal_id}`} style={{ textDecoration: "none" }}>
-        <Card className={styles.card} sx={{ maxWidth: 300 }}>
-          <CardActionArea>
+        <Card
+          className={styles.card}
+          sx={{ maxWidth: 300, height: 400, display: "flex", flexDirection: "column" }}
+        >
+          <CardActionArea sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
             <CardMedia
               component="img"
               image={anime.images.jpg.image_url}
               alt={anime.title}
               className={styles.cardImg}
             />
-            <CardContent>
+            <CardContent sx={{ flexGrow: 1 }}>
               <Typography variant="h6" component="div" className={styles.cardTitle} gutterBottom>
                 {anime.title}
               </Typography>
               <Typography variant="body2" className={styles.cardSynopsis}>
-                {anime.synopsis?.slice(0, 80) || "No description available."}
+                {anime.synopsis || "No description available."}
               </Typography>
             </CardContent>
           </CardActionArea>

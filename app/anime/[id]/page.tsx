@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Container from "@mui/material/Container";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
@@ -9,10 +9,12 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button"; 
 import { useTheme } from "@mui/material/styles";
 
 export default function AnimeDetail() {
   const { id } = useParams();
+  const router = useRouter(); 
   const [anime, setAnime] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -57,6 +59,14 @@ export default function AnimeDetail() {
         <Typography variant="h5" color="error">
           No anime data found. Please try again later.
         </Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{ mt: 3 }}
+          onClick={() => router.push("/")} 
+        >
+          Back Home
+        </Button>
       </Container>
     );
 
@@ -65,11 +75,13 @@ export default function AnimeDetail() {
       sx={{
         py: 6,
         display: "flex",
-        justifyContent: "center",
+        flexDirection: "column",
+        alignItems: "center",
         backgroundColor: theme.palette.background.default,
         minHeight: "100vh",
       }}
     >
+
       <Card
         sx={{
           maxWidth: 600,
@@ -99,6 +111,20 @@ export default function AnimeDetail() {
           <Typography>
             <b>Year:</b> {anime.year ?? "?"}
           </Typography>
+          <Button
+        variant="contained"
+        color="primary"
+        sx={{ mb: 3, mt:3, alignSelf: "flex-start",  color: "#fff",
+          fontSize: "0.8rem",   
+          padding: "6px 12px"
+         }}
+        onClick={() => {
+          router.replace("/");
+          router.refresh(); 
+}}
+      >
+        Back Home
+      </Button>
         </CardContent>
       </Card>
     </Container>

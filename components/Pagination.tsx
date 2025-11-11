@@ -17,8 +17,12 @@ export default function Pagination({ totalPages, query }: PaginationProps) {
   const currentPage = parseInt(searchParams.get("page") || "1", 10);
 
   const handleChange = (_: React.ChangeEvent<unknown>, value: number) => {
-    router.push(`${pathname}?q=${encodeURIComponent(query)}&page=${value}`);
-    router.refresh();
+    const pageParam = `page=${value}`;
+    if (query) {
+      router.push(`${pathname}?q=${encodeURIComponent(query)}&${pageParam}`);
+    } else {
+      router.push(`${pathname}?${pageParam}`);
+    }
   };
 
   return (

@@ -29,19 +29,25 @@ export default function Header() {
 
   return (
     <AppBar
-      position="static"
-      sx={{
-        backgroundColor: "#e996d3",
-        color: "#fff",
-        boxShadow: "none",
-      }}
-    >
+  position="static"
+  sx={{
+    backgroundColor: "#161b22", 
+    color: "#ffffff",
+    boxShadow: "none",
+  }}
+>
       <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Link href="/">
+       <Link href="/" style={{ display: "flex", alignItems: "center", gap: 5 }}>
+          <Box
+            component="img"
+            src="/logo.png"
+            alt="Logo"
+            sx={{ width: 40, height: 40 }} 
+          />
           <Typography
             variant="h5"
             fontWeight="bold"
-            sx={{ letterSpacing: 1, cursor: "pointer", color: "#fff" }}
+            sx={{ letterSpacing: 1, alignItems:"center", cursor: "pointer", color: "#fff" }}
           >
             Anime Finder
           </Typography>
@@ -49,41 +55,34 @@ export default function Header() {
 
         <Box sx={{ flexGrow: 1, maxWidth: 400, ml: 4 }}>
           <Stack direction="row" spacing={1}>
-            <TextField
-              fullWidth
-              size="small"
-              variant="outlined"
-              placeholder="Search anime..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              onKeyDown={handleKeyPress}
+            <TextField fullWidth size="small"
+            variant="outlined" placeholder="Search anime..."
+             value={query} onChange={(e) =>
+               setQuery(e.target.value)} onKeyDown={handleKeyPress}
               sx={{
-                backgroundColor: "#ffff",
+                backgroundColor: "#0d1117",
                 borderRadius: 1,
                 "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "#e996d3",
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "#d07fbd",
-                  },
+                  "& fieldset": { borderColor: "#4fc3f7" },
+                  "&:hover fieldset": { borderColor: "#6ecfff" },
+                  "& input": { color: "#ffffff" },
                 },
               }}
             />
-             <Button
+              <Button
             variant="contained"
             onClick={handleSearch}
             sx={{
-                backgroundColor: "#ffffff", 
-                color: "#e996d3", 
-                fontWeight: "bold",
-                "&:hover": {
-                backgroundColor: "#f0f0f0", 
-                },
+              backgroundColor: "#4fc3f7",
+              color: "#0d1117",
+              fontWeight: "bold",
+              "&:hover": {
+                backgroundColor: "#6ecfff",
+              },
             }}
-            >
+          >
             Search
-            </Button>
+          </Button>
           </Stack>
         </Box>
       </Toolbar>
