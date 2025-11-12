@@ -2,34 +2,16 @@
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import "./globals.css";
+import Box from "@mui/material/Box";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 const theme = createTheme({
   palette: {
-    mode: "light",
-    background: {
-      default: "#f7f8fa", 
-      paper: "#ffffff",   
-    },
-    primary: {
-      main: "#e996d3",  
-      contrastText: "#1a1a1a",
-    },
-    secondary: {
-      main: "#d18aff",
-      contrastText: "#1a1a1a",
-    },
-    text: {
-      primary: "#1a1a1a",
-      secondary: "#555555",
-    },
-    error: { main: "#f13c8d" },
-    warning: { main: "#f9a825" },
-    info: { main: "#42a5f5" },
-    success: { main: "#66bb6a" },
-  },
-  shape: {
-    borderRadius: 8, 
+    mode: "dark",
+    background: { default: "#0d1117", paper: "#161b22" },
+    primary: { main: "#4fc3f7", contrastText: "#fff" },
+    text: { primary: "#fff", secondary: "#bbb" },
   },
 });
 
@@ -39,7 +21,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          {children}
+          <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+            <Header />
+            <Box component="main" sx={{ flex: 1 }}>
+              {children}
+            </Box>
+            <Footer />
+          </Box>
         </ThemeProvider>
       </body>
     </html>

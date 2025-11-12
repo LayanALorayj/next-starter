@@ -1,66 +1,55 @@
-"use client";
-import { useState, useEffect } from "react";
-import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import { ThemeProvider } from "@mui/material/styles";
 import Hero from "../components/Hero";
-import SearchBar from "../components/SearchBar";
-import AnimeCard from "../components/AnimeCard";
 import Pagination from "../components/Pagination";
-import theme from "../themes/theme";
-import CssBaseline from "@mui/material/CssBaseline";
+import AnimeGrid from "../components/AnimeGrid";
 
-export default function HomePage() {
-  const [animes, setAnimes] = useState<any[]>([]);
-  const [search, setSearch] = useState("");
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const limit = 6;
+export const metadata = {
+  title: "Anime Finder",
+  description: "Discover and explore anime using the Jikan API",
+};
 
-  useEffect(() => {
-    fetchAnime(search, page);
-  }, [page]);
+interface HomePageProps {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
 
-  async function fetchAnime(q: string, p = 1) {
-    const res = await fetch(
-      `https://api.jikan.moe/v4/anime?q=${q}&limit=${limit}&page=${p}`
-    );
+export default async function HomePage({ searchParams }: HomePageProps) {
+  const sp = await searchParams;
+  const search = (sp.q as string) || "";
+  const page = parseInt((sp.page as string) || "1", 10);
+
+  let animes: any[] = [];
+  let totalPages = 1;
+
+  let queryString = `limit=6&page=${page}`;
+  if (search) {
+    queryString = `q=${encodeURIComponent(search)}&${queryString}`;
+  }
+
+  const res = await fetch(`https://api.jikan.moe/v4/anime?${queryString}`);
+  if (res.ok) {
     const data = await res.json();
-    setAnimes(data.data);
-    setTotalPages(data.pagination?.last_visible_page || 1);
+    animes = Array.isArray(data.data) ? data.data : [];
+    totalPages = data.pagination?.last_visible_page || 1;
   }
 
-  function handleSearch(query: string) {
-    setSearch(query);
-    setPage(1);
-    fetchAnime(query, 1);
-  }
+  const HERO_IMAGE_URL =
+    "https://static.beebom.com/wp-content/uploads/2023/06/Anime.jpg?w=640";
 
   return (
-    <ThemeProvider theme={theme}>
-       <CssBaseline />
-      <Box
-      >
-        <Container>
-          <Hero />
-          <SearchBar value={search} onChange={setSearch} onSearch={handleSearch} />
-
-          <Grid container spacing={3} mt={3} justifyContent="center">
-            {animes.map((a) => (
-              <Grid item key={a.mal_id}>
-                <AnimeCard anime={a} />
-              </Grid>
-            ))}
-          </Grid>
-
-          <Pagination
-            currentPage={page}
-            totalPages={totalPages}
-            onPageChange={setPage}
-          />
-        </Container>
-      </Box>
-    </ThemeProvider>
+    <Box
+      sx={{
+        backgroundColor: "background.default",
+        color: "text.primary",
+        minHeight: "100vh",
+        py: 4,
+      }}
+    >
+      <Container>
+        <Hero image={HERO_IMAGE_URL} />
+        <AnimeGrid animes={animes} />
+        <Pagination totalPages={totalPages} query={search} />
+      </Container>
+    </Box>
   );
 }
