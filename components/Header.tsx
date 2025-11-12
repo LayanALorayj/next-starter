@@ -37,12 +37,12 @@ export default function Header() {
   }}
 >
       <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-       <Link href="/" style={{ display: "flex", alignItems: "center", gap: 5 }}>
+       <Link href="/" style={{ display: "flex", alignItems: "center", gap: 5,textDecoration: "none"}}>
           <Box
             component="img"
             src="/logo.png"
             alt="Logo"
-            sx={{ width: 40, height: 40 }} 
+            sx={{ width: 60, height: 40 }} 
           />
           <Typography
             variant="h5"
