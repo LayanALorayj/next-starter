@@ -10,20 +10,30 @@ export default function BackButton() {
       component={Link}
       href="/"
       sx={{
-        mb: 3,
-        mt: 3,
-        display: "inline-block",
-        textDecoration: "none",
-      }}
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              width: "100%",
+              borderTop: "1px solid #222",
+              backgroundColor: "#000",
+              py: 1.5,
+              display: "flex",
+              justifyContent: "center",
+              textDecoration: "none"
+            }}
     >
       <Button
         variant="contained"
         color="primary"
         sx={{
-          color: "#fff",
-          fontSize: "0.8rem",
-          padding: "6px 12px",
-        }}
+                color: "#f3f3f3",
+                borderColor: "#ffda00",
+                fontSize: 12,
+                borderRadius: 1,
+                px: 5,
+                backgroundColor: "#4fc3f7",
+                "&:hover": { backgroundColor: "#83d1f6ff", color: "#000" },
+              }}
       >
         Back Home
       </Button>

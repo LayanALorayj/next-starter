@@ -1,10 +1,8 @@
 import { notFound } from "next/navigation";
 import Container from "@mui/material/Container";
-import Card from "@mui/material/Card";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import BackButton from "../../../components/BackButton";
+import { Box } from "@mui/material";
 
 interface AnimeDetailProps {
   params: Promise<{ id: string }>;
@@ -41,49 +39,132 @@ export default async function AnimeDetail({ params }: AnimeDetailProps) {
     notFound();
   }
 
+  const rating = anime.score ?? 0;
+
   return (
     <Container
       sx={{
-        py: 6,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        backgroundColor: "background.default",
+        backgroundColor: "#0d1117",
         minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        p: 3,
       }}
     >
-      <Card
+      <Box
+        className="card"
         sx={{
-          maxWidth: 600,
-          backgroundColor: "background.paper",
-          color: "text.primary",
+          display: "flex",
+          flexDirection: "row",
+          width: 800,
+          height: "auto",
+          borderRadius: 2,
+          overflow: "hidden",
+          boxShadow: "0px 20px 30px 3px rgba(0,0,0,0.55)",
+          background: "transparent",
+          position: "relative",
         }}
       >
-        <CardMedia
-          component="img"
-          image={anime.images?.jpg?.large_image_url || "/placeholder.png"}
-          alt={anime.title || "Unknown Title"}
-          sx={{ height: 400, objectFit: "cover" }}
-        />
-        <CardContent>
-          <Typography variant="h4" fontWeight="bold" color="primary">
-            {anime.title || "Unknown Title"}
-          </Typography>
-          <Typography variant="body1" color="text.secondary" mt={2}>
-            {anime.synopsis || "No synopsis available."}
-          </Typography>
-          <Typography mt={3}>
-            <b>Episodes:</b> {anime.episodes ?? "?"}
-          </Typography>
-          <Typography>
-            <b>Score:</b> {anime.score ?? "?"}
-          </Typography>
-          <Typography>
-            <b>Year:</b> {anime.year ?? "?"}
-          </Typography>
-          <BackButton />
-        </CardContent>
-      </Card>
+        <Box sx={{ width: "40%", flexShrink: 0, overflow: "hidden" }}>
+          <Box
+            component="img"
+            src={anime.images?.jpg?.large_image_url || "/placeholder.png"}
+            alt={anime.title}
+            sx={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              display: "block",
+            }}
+          />
+        </Box>
+
+        <Box
+          sx={{
+            width: "60%",
+            background: "#000",
+            color: "#fff",
+            paddingTop: 2,
+            borderRadius: "0 10px 10px 0",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            position: "relative",
+          }}
+        >
+          <Box sx={{ pb: 8 }}>
+            <Typography
+              variant="h4"
+              sx={{ fontWeight: 400, fontSize: 32, ml: 5, mb: 1 }}
+            >
+              {anime.title}
+            </Typography>
+
+            <Box>
+              <ul style={{ listStyle: "none", paddingLeft: 40, margin: 0 }}>
+                <li
+                  style={{
+                    display: "inline",
+                    paddingRight: 40,
+                    color: "#e3e3e3",
+                    fontSize: 14,
+                  }}
+                >
+                  {anime.year ?? "Unknown Year"}
+                </li>
+                <li
+                  style={{
+                    display: "inline",
+                    paddingRight: 40,
+                    color: "#e3e3e3",
+                    fontSize: 14,
+                  }}
+                >
+                  {anime.episodes ? `${anime.episodes} Episodes` : "?"}
+                </li>
+                <li
+                  style={{
+                    display: "inline",
+                    paddingRight: 40,
+                    color: "#e3e3e3",
+                    fontSize: 14,
+                  }}
+                >
+                  {anime.type ?? "N/A"}
+                </li>
+              </ul>
+            </Box>
+
+            <Box
+              sx={{
+                ml: 5,
+                mt: 1,
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Typography sx={{ color: "#4fc3f7" }}>
+                {rating.toFixed(1)}/10
+              </Typography>
+            </Box>
+
+            <Box sx={{ p: "10px 40px" }}>
+              <Typography
+                sx={{
+                  fontSize: 13,
+                  lineHeight: "20px",
+                  color: "#f3f3f3",
+                }}
+              >
+                {anime.synopsis || "No synopsis available."}
+              </Typography>
+            </Box>
+          </Box>
+           <BackButton />
+          </Box>
+        </Box>
     </Container>
   );
+
 }
