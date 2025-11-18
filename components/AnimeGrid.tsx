@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import Grid from '@mui/material/Grid'; 
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import AnimeCard from "./AnimeCard";
@@ -23,13 +22,26 @@ export default function AnimeGrid({ animes }: AnimeGridProps) {
 
   return (
     <Suspense fallback={<LoadingFallback />}>
-      <Grid container spacing={3} mt={3} justifyContent="center">
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: {
+            xs: '1fr',        
+            sm: 'repeat(2, 1fr)', 
+            md: 'repeat(3, 1fr)', 
+            lg: 'repeat(3, 1fr)',
+          },
+          gap: 3,
+          mt: 3, 
+          justifyContent: 'center',
+        }}
+      >
         {animes.map((a) => (
-          <Grid item key={a.mal_id} xs={12} sm={6} md={4} lg={3}>
+          <Box key={a.mal_id} sx={{ display: 'flex', justifyContent: 'center' }}>
             <AnimeCard anime={a} />
-          </Grid>
+          </Box>
         ))}
-      </Grid>
+      </Box>
     </Suspense>
   );
 }
