@@ -10,7 +10,6 @@ export default function BackButton() {
       component={Link}
       href="/"
       sx={{
-              position: "absolute",
               bottom: 0,
               left: 0,
               width: "100%",
@@ -19,7 +18,8 @@ export default function BackButton() {
               py: 1.5,
               display: "flex",
               justifyContent: "center",
-              textDecoration: "none"
+              textDecoration: "none",
+              mt: "auto",
             }}
     >
       <Button

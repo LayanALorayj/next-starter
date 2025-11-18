@@ -1,9 +1,11 @@
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
-const IMAGE_URL = "https://static.beebom.com/wp-content/uploads/2023/06/Anime.jpg?w=640";
+interface HeroProps {
+  image: string;
+}
 
-export default function Hero() {
+export default function Hero({ image }: HeroProps) {
   return (
     <Box
       sx={{
@@ -21,7 +23,7 @@ export default function Hero() {
     >
       <Box
         component="img"
-        src={IMAGE_URL}
+        src={image} 
         alt="Anime"
         sx={{
           position: "absolute",

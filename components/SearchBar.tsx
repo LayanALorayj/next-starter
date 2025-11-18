@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -46,7 +46,7 @@ export default function SearchBar({ initialQuery = "" }: { initialQuery?: string
           variant="outlined"
           placeholder="Search anime..."
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e: { target: { value: SetStateAction<string>; }; }) => setQuery(e.target.value)}
           onKeyDown={handleKeyPress}
           sx={{
             backgroundColor: "#0d1117",

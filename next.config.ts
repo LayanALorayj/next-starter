@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+
+  images: {
+    domains: ['cdn.myanimelist.net', 'api.jikan.moe'],   
+  },
 };
 
 export default nextConfig;

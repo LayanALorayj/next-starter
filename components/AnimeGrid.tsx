@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import Grid from "@mui/material/Grid";
+import Grid from '@mui/material/Grid'; 
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import AnimeCard from "./AnimeCard";
